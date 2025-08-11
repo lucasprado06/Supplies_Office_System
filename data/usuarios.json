@@ -1,0 +1,16 @@
+[
+    {
+        "nome": "Admin",
+        "registro": "Admin",
+        "departamento": "admin",
+        "senha": "Admin",
+        "permissao": "administrador"
+    },
+    {
+        "nome": "Solicitante",
+        "registro": "Solicitante",
+        "departamento": "solicitante",
+        "senha": "12345678",
+        "permissao": "solicitante"
+    }
+]

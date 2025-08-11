@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}Gerenciar Materiais{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h2 class="h5 mb-0">Gerenciar Materiais</h2>
+            <a href="{{ url_for('exportar_materiais_excel') }}" class="btn btn-success btn-sm">Exportar para Excel</a>
+        </div>
+        <div class="card-body">
+            <form action="{{ url_for('gerenciar_materiais') }}" method="post" class="mb-4">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="codigo">Código</label>
+                        <input type="text" class="form-control" id="codigo" name="codigo" required>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="descricao">Descrição</label>
+                        <input type="text" class="form-control" id="descricao" name="descricao" required>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="quantidade_maxima">Qtd. Máxima</label>
+                        <input type="number" class="form-control" id="quantidade_maxima" name="quantidade_maxima" required>
+                    </div>
+                    <div class="form-group col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary btn-block">Adicionar Material</button>
+                    </div>
+                </div>
+            </form>
+            
+            <hr>
+            
+            <h3 class="h6 mb-3">Materiais Cadastrados</h3>
+            {% if materiais %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Código</th>
+                                <th scope="col">Descrição</th>
+                                <th scope="col">Qtd. Máxima</th>
+                                <th scope="col" class="text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for material in materiais %}
+                                <tr>
+                                    <td>{{ material.codigo }}</td>
+                                    <td>{{ material.descricao }}</td>
+                                    <td>{{ material.quantidade_maxima }}</td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#editarMaterialModal"
+                                                data-codigo="{{ material.codigo }}"
+                                                data-descricao="{{ material.descricao }}"
+                                                data-quantidade="{{ material.quantidade_maxima }}">
+                                            Editar
+                                        </button>
+                                        <form action="{{ url_for('excluir_material') }}" method="post" style="display:inline;">
+                                            <input type="hidden" name="codigo_material" value="{{ material.codigo }}">
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este material?');">Excluir</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-center">Nenhum material cadastrado.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editarMaterialModal" tabindex="-1" role="dialog" aria-labelledby="editarMaterialModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarMaterialModalLabel">Editar Material</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ url_for('editar_material') }}" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="codigo_editar">Código</label>
+                        <input type="text" class="form-control" id="codigo_editar" name="codigo_editar" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="descricao_editar">Descrição</label>
+                        <input type="text" class="form-control" id="descricao_editar" name="descricao_editar" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantidade_maxima_editar">Qtd. Máxima</label>
+                        <input type="number" class="form-control" id="quantidade_maxima_editar" name="quantidade_maxima_editar" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $('#editarMaterialModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var codigo = button.data('codigo');
+            var descricao = button.data('descricao');
+            var quantidade = button.data('quantidade');
+
+            var modal = $(this);
+            modal.find('#codigo_editar').val(codigo);
+            modal.find('#descricao_editar').val(descricao);
+            modal.find('#quantidade_maxima_editar').val(quantidade);
+        });
+    });
+</script>
+{% endblock %}
