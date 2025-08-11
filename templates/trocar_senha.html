@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {% extends 'base.html' %}
 
 {% block title %}Trocar Senha{% endblock %}
@@ -30,37 +29,3 @@
         </div>
     </div>
 </div>
-=======
-{% extends 'base.html' %}
-
-{% block title %}Trocar Senha{% endblock %}
-
-{% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2 class="text-center mb-4">Trocar Senha</h2>
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <form action="{{ url_for('trocar_senha') }}" method="post">
-                        <div class="form-group">
-                            <label for="senha_atual">Senha Atual:</label>
-                            <input type="password" class="form-control" id="senha_atual" name="senha_atual" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="nova_senha">Nova Senha:</label>
-                            <input type="password" class="form-control" id="nova_senha" name="nova_senha" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="confirmar_nova_senha">Confirmar Nova Senha:</label>
-                            <input type="password" class="form-control" id="confirmar_nova_senha" name="confirmar_nova_senha" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Trocar Senha</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
->>>>>>> 03e5749130fad34536beb3151aa93fc91600bb6a
-{% endblock %}
