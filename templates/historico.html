@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base.html' %}
 
 {% block title %}Histórico de Requisições{% endblock %}
@@ -65,4 +66,73 @@
         </div>
     </div>
 </div>
+=======
+{% extends 'base.html' %}
+
+{% block title %}Histórico de Requisições{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h2 class="h5 mb-0">Histórico de Requisições</h2>
+        </div>
+        <div class="card-body">
+            {% if session['user']['permissao'] == 'administrador' %}
+                <div class="text-right mb-3 no-print">
+                    <a href="{{ url_for('exportar_historico_excel') }}" class="btn btn-success">Exportar para Excel</a>
+                </div>
+            {% endif %}
+            
+            {% if requisicoes %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Data da Requisição</th>
+                                <th scope="col">Data de Retirada</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Solicitante</th>
+                                <th scope="col">Departamento</th>
+                                <th scope="col" class="text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for requisicao in requisicoes %}
+                                <tr>
+                                    <td>{{ requisicao.id }}</td>
+                                    <td>{{ requisicao.data }}</td>
+                                    <td>{{ requisicao.get('data_retirada', '-') }}</td>
+                                    <td>
+                                        {% if requisicao.status == 'concluida' %}
+                                            <span class="badge badge-success">{{ requisicao.status }}</span>
+                                        {% elif requisicao.status == 'separado' %}
+                                            <span class="badge badge-warning">{{ requisicao.status }}</span>
+                                        {% else %}
+                                            <span class="badge badge-primary">{{ requisicao.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ requisicao.nome }}</td>
+                                    <td>{{ requisicao.departamento }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ url_for('historico_detalhes', requisicao_id=requisicao.id) }}" class="btn btn-info btn-sm">Visualizar Detalhes</a>
+                                        {% if requisicao.status == 'pendente' and session['user']['permissao'] != 'administrador' %}
+                                            <form action="{{ url_for('excluir_requisicao', requisicao_id=requisicao.id) }}" method="post" style="display:inline;">
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir esta requisição?');">Excluir</button>
+                                            </form>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-center">Nenhuma requisição no histórico.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+>>>>>>> 03e5749130fad34536beb3151aa93fc91600bb6a
 {% endblock %}

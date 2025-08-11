@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [
     {
         "codigo": "30100001",
@@ -19,4 +20,27 @@
         "descricao": "jfaskjfnao",
         "quantidade_maxima": 12
     }
+=======
+[
+    {
+        "codigo": "30100001",
+        "descricao": "APAGADOR QUADRO BRANCO RADEX",
+        "quantidade_maxima": 2
+    },
+    {
+        "codigo": "30100002",
+        "descricao": "APOIO PARA PES ACRINIL",
+        "quantidade_maxima": 3
+    },
+    {
+        "codigo": "30100003",
+        "descricao": "APONTADOR PLASTICO SIMPLES RADEX",
+        "quantidade_maxima": 10
+    },
+    {
+        "codigo": "1234",
+        "descricao": "jfaskjfnao",
+        "quantidade_maxima": 12
+    }
+>>>>>>> 03e5749130fad34536beb3151aa93fc91600bb6a
 ]

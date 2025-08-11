@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base.html' %}
 
 {% block title %}Cadastro de Usuário{% endblock %}
@@ -42,4 +43,50 @@
         </div>
     </div>
 </div>
+=======
+{% extends 'base.html' %}
+
+{% block title %}Cadastro de Usuário{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm mx-auto" style="max-width: 500px;">
+        <div class="card-header bg-primary text-white text-center">
+            <h2 class="h5 mb-0">Cadastro de Usuário</h2>
+        </div>
+        <div class="card-body">
+            <form action="{{ url_for('cadastrar_usuario') }}" method="post">
+                <div class="form-group">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" class="form-control" id="nome" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="registro">Registro (ou Matrícula)</label>
+                    <input type="text" class="form-control" id="registro" name="registro" required>
+                </div>
+                <div class="form-group">
+                    <label for="departamento">Departamento</label>
+                    <input type="text" class="form-control" id="departamento" name="departamento" required>
+                </div>
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" class="form-control" id="senha" name="senha" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmar_senha">Confirmar Senha</label>
+                    <input type="password" class="form-control" id="confirmar_senha" name="confirmar_senha" required>
+                </div>
+                <div class="form-group">
+                    <label for="permissao">Permissão</label>
+                    <select class="form-control" id="permissao" name="permissao">
+                        <option value="solicitante">Solicitante</option>
+                        <option value="administrador">Administrador</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+>>>>>>> 03e5749130fad34536beb3151aa93fc91600bb6a
 {% endblock %}

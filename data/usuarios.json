@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [
     {
         "nome": "Admin",
@@ -13,4 +14,21 @@
         "senha": "12345678",
         "permissao": "solicitante"
     }
+=======
+[
+    {
+        "nome": "Admin",
+        "registro": "Admin",
+        "departamento": "admin",
+        "senha": "Admin",
+        "permissao": "administrador"
+    },
+    {
+        "nome": "Solicitante",
+        "registro": "Solicitante",
+        "departamento": "solicitante",
+        "senha": "12345678",
+        "permissao": "solicitante"
+    }
+>>>>>>> 03e5749130fad34536beb3151aa93fc91600bb6a
 ]

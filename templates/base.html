@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -105,4 +106,113 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gerenciamento de Requisições{% endblock %}</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar-brand {
+            font-weight: bold;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            border-radius: 0.5rem;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+            color: white;
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark no-print">
+        <a class="navbar-brand" href="{{ url_for('home') }}" title="Sistema de Controle e Requisição de Materiais de Escritório">OSCR</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto list-unstyled">
+                {% if 'user' in session %}
+                    {% if session['user']['permissao'] == 'administrador' %}
+                        <li class="nav-item {% if request.endpoint == 'pendentes' %}active{% endif %}">
+                            <a class="nav-link" href="{{ url_for('pendentes') }}">Requisições Pendentes</a>
+                        </li>
+                        <li class="nav-item {% if request.endpoint == 'separados' %}active{% endif %}">
+                            <a class="nav-link" href="{{ url_for('separados') }}">Requisições Separadas</a>
+                        </li>
+                        <li class="nav-item {% if request.endpoint == 'historico' %}active{% endif %}">
+                            <a class="nav-link" href="{{ url_for('historico') }}">Histórico</a>
+                        </li>
+                        <li class="nav-item {% if request.endpoint == 'gerenciar_materiais' %}active{% endif %}">
+                            <a class="nav-link" href="{{ url_for('gerenciar_materiais') }}">Gerenciar Materiais</a>
+                        </li>
+                        <li class="nav-item {% if request.endpoint == 'gerenciar_usuarios' %}active{% endif %}">
+                            <a class="nav-link" href="{{ url_for('gerenciar_usuarios') }}">Gerenciar Usuários</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item {% if request.endpoint == 'fazer_requisicao' %}active{% endif %}">
+                            <a class="nav-link" href="{{ url_for('fazer_requisicao') }}">Fazer Requisição</a>
+                        </li>
+                        <li class="nav-item {% if request.endpoint == 'historico' %}active{% endif %}">
+                            <a class="nav-link" href="{{ url_for('historico') }}">Meu Histórico</a>
+                        </li>
+                        <li class="nav-item {% if request.endpoint == 'trocar_senha' %}active{% endif %}">
+                            <a class="nav-link" href="{{ url_for('trocar_senha') }}">Trocar Senha</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav">
+                {% if 'user' in session %}
+                    <li class="nav-item">
+                        <span class="navbar-text">Olá, {{ session['user']['nome'] }}</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}"> Sair</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="row">
+                    <div class="col-md-12">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+>>>>>>> 03e5749130fad34536beb3151aa93fc91600bb6a
 </html>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base.html' %}
 
 {% block title %}Detalhes da Requisição{% endblock %}
@@ -79,4 +80,87 @@
         <button onclick="window.print()" class="btn btn-secondary">Imprimir Requisição</button>
     </div>
 </div>
+=======
+{% extends 'base.html' %}
+
+{% block title %}Detalhes da Requisição{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h2 class="h5 mb-0">Detalhes da Requisição #{{ requisicao.id }}</h2>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Solicitante:</strong> {{ requisicao.nome }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Departamento:</strong> {{ requisicao.departamento }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Data da Requisição:</strong> {{ requisicao.data }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Status:</strong> 
+                    {% if requisicao.status == 'concluida' %}
+                        <span class="badge badge-success">{{ requisicao.status }}</span>
+                    {% elif requisicao.status == 'separado' %}
+                        <span class="badge badge-warning">{{ requisicao.status }}</span>
+                    {% else %}
+                        <span class="badge badge-primary">{{ requisicao.status }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% if requisicao.status != 'pendente' %}
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Data de Retirada:</strong> {{ requisicao.data_retirada }}
+                </div>
+                {% if requisicao.data_conclusao %}
+                <div class="col-md-6">
+                    <strong>Data de Conclusão:</strong> {{ requisicao.data_conclusao }}
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <h5 class="mt-4">Itens da Requisição</h5>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Código</th>
+                            <th>Nome do Item</th>
+                            <th>Quantidade Solicitada</th>
+                            {% if requisicao.status != 'pendente' %}
+                            <th>Quantidade Separada</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in requisicao.itens %}
+                        <tr>
+                            <td>{{ item.codigo }}</td>
+                            <td>{{ item.nome }}</td>
+                            <td>{{ item.quantidade }}</td>
+                            {% if requisicao.status != 'pendente' %}
+                            <td>{{ item.quantidade_separada }}</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-right mt-3 no-print">
+        <button onclick="window.print()" class="btn btn-secondary">Imprimir Requisição</button>
+    </div>
+</div>
+>>>>>>> 03e5749130fad34536beb3151aa93fc91600bb6a
 {% endblock %}

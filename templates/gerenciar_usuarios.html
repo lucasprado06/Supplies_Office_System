@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base.html' %}
 
 {% block title %}Gerenciar Usuários{% endblock %}
@@ -46,4 +47,54 @@
         </div>
     </div>
 </div>
+=======
+{% extends 'base.html' %}
+
+{% block title %}Gerenciar Usuários{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h2 class="h5 mb-0">Gerenciar Usuários</h2>
+            <a href="{{ url_for('cadastro') }}" class="btn btn-light btn-sm">Cadastrar Usuário</a>
+        </div>
+        <div class="card-body">
+            {% if usuarios %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Registro</th>
+                                <th scope="col">Departamento</th>
+                                <th scope="col">Permissão</th>
+                                <th scope="col" class="text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for usuario in usuarios %}
+                                <tr>
+                                    <td>{{ usuario.nome }}</td>
+                                    <td>{{ usuario.registro }}</td>
+                                    <td>{{ usuario.departamento }}</td>
+                                    <td>{{ usuario.permissao | capitalize }}</td>
+                                    <td class="text-center">
+                                        <form action="{{ url_for('excluir_usuario') }}" method="post">
+                                            <input type="hidden" name="registro_usuario" value="{{ usuario.registro }}">
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este usuário?');">Excluir</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-center">Nenhum usuário cadastrado.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+>>>>>>> 03e5749130fad34536beb3151aa93fc91600bb6a
 {% endblock %}
