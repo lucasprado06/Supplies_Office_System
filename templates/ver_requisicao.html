@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalhes da Requisição {{ requisicao.id }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white text-center no-print">
+            <h2 class="h5 mb-0">Detalhes da Requisição #{{ requisicao.id }}</h2>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <p class="mb-1"><strong>ID:</strong> {{ requisicao.id }}</p>
+                    <p class="mb-1"><strong>Data da Requisição:</strong> {{ requisicao.data.strftime('%d/%m/%Y') }}</p>
+                    <p class="mb-1"><strong>Hora da Requisição:</strong> {{ requisicao.data.strftime('%H:%M') }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1"><strong>Solicitante:</strong> {{ requisicao.nome }}</p>
+                    <p class="mb-1"><strong>Departamento:</strong> {{ requisicao.departamento }}</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <h3 class="h6 mb-3">Itens da Requisição</h3>
+
+            <form action="{{ url_for('concluir_requisicao') }}" method="post">
+                <input type="hidden" name="requisicao_id" value="{{ requisicao.id }}">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Código</th>
+                                <th scope="col">Descrição do Item</th>
+                                <th scope="col">Qtd. Solicitada</th>
+                                <th scope="col">Qtd. Separada</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in requisicao.itens %}
+                            <tr>
+                                <td>{{ item.codigo }}</td>
+                                <td>{{ item.nome }}</td>
+                                <td>{{ item.quantidade }}</td>
+                                <td>
+                                    <input type="number" name="quantidade_separada_{{ item.codigo }}" value="{{ item.quantidade }}" min="0" max="{{ item.quantidade }}" class="form-control form-control-sm" required>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-group mt-4">
+                    <label for="data_retirada">Data de Retirada:</label>
+                    <input type="date" id="data_retirada" name="data_retirada" class="form-control" required>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4 no-print">
+                    <button type="submit" class="btn btn-success"><i class="fas fa-check-circle"></i> Marcar como Separado</button>
+                    <a href="{{ url_for('pendentes') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="text-right mt-3 no-print">
+        <button onclick="window.print()" class="btn btn-info"><i class="fas fa-print"></i> Imprimir Requisição</button>
+    </div>
+</div>
+{% endblock %}

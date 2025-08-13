@@ -27,17 +27,19 @@
 
                 <div class="form-row align-items-end mb-3">
                     <div class="col-md-6 form-group">
-                        <label for="material-datalist">Buscar material</label>
-                        <input class="form-control" list="materials-options" id="material-datalist" placeholder="Digite o código ou a descrição...">
-                        <datalist id="materials-options">
+                        <label for="material-select">Buscar material</label>
+                        <select class="form-control" id="material-select">
+                            <option></option>
                             {% for material in materiais %}
-                                <option value="{{ material.codigo }} - {{ material.descricao }}" data-codigo="{{ material.codigo }}" data-descricao="{{ material.descricao }}" data-quantidade="{{ material.quantidade_maxima }}"></option>
+                                <option value="{{ material.codigo }}" data-descricao="{{ material.descricao }}" data-quantidade="{{ material.quantidade_maxima }}">
+                                    {{ material.codigo }} - {{ material.descricao }}
+                                </option>
                             {% endfor %}
-                        </datalist>
+                        </select>
                     </div>
                     <div class="col-md-3 form-group">
                         <label for="quantidade">Quantidade</label>
-                        <input type="number" class="form-control" id="quantidade" min="1" value="1">
+                        <input type="number" class="form-control" id="quantidade" min="1">
                     </div>
                     <div class="col-md-3 form-group">
                         <button type="button" class="btn btn-secondary btn-block" id="add-item-btn">Adicionar</button>
@@ -48,12 +50,12 @@
 
                 <h3 class="h6 mb-3">Itens da Requisição</h3>
                 <div id="requisition-items">
-                    </div>
+                </div>
                 
                 <p id="no-items-message" class="text-center text-muted">Nenhum item adicionado ainda.</p>
 
                 <div class="text-right mt-4">
-                    <button type="submit" class="btn btn-primary">Enviar Requisição</button>
+                    <button type="submit" class="btn btn-primary" id="enviar-requisicao-btn" disabled>Enviar Requisição</button>
                 </div>
             </form>
         </div>
@@ -62,39 +64,59 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Inicializa o Select2 na lista suspensa com um novo placeholder
+        $('#material-select').select2({
+            placeholder: "Digite para pesquisar ou selecione um material",
+            allowClear: true // Permite limpar a seleção
+        });
+
         var addItemBtn = document.getElementById('add-item-btn');
-        var materialDatalist = document.getElementById('material-datalist');
+        var materialSelect = document.getElementById('material-select');
         var quantidadeInput = document.getElementById('quantidade');
         var requisitionItemsDiv = document.getElementById('requisition-items');
         var noItemsMessage = document.getElementById('no-items-message');
+        var enviarRequisicaoBtn = document.getElementById('enviar-requisicao-btn');
         var itemCounter = 0;
 
-        // Atualiza a mensagem "Nenhum item adicionado"
-        function updateNoItemsMessage() {
-            if (requisitionItemsDiv.children.length > 0) {
-                noItemsMessage.style.display = 'none';
-            } else {
-                noItemsMessage.style.display = 'block';
-            }
+        function updateUI() {
+            const hasItems = requisitionItemsDiv.children.length > 0;
+            noItemsMessage.style.display = hasItems ? 'none' : 'block';
+            enviarRequisicaoBtn.disabled = !hasItems;
         }
 
-        // Adiciona um novo item ao formulário
         addItemBtn.addEventListener('click', function() {
-            var selectedValue = materialDatalist.value;
-            var selectedOption = document.querySelector('#materials-options option[value="' + selectedValue + '"]');
+            var selectedOption = materialSelect.options[materialSelect.selectedIndex];
+            var quantidadeSolicitada = parseInt(quantidadeInput.value);
 
-            if (!selectedOption) {
+            if (!selectedOption || !selectedOption.value) {
                 alert('Por favor, selecione um material válido da lista.');
                 return;
             }
+            
+            if (isNaN(quantidadeSolicitada) || quantidadeSolicitada <= 0) {
+                alert('Por favor, insira uma quantidade válida.');
+                return;
+            }
 
-            var codigo = selectedOption.getAttribute('data-codigo');
+            var codigo = selectedOption.value;
             var descricao = selectedOption.getAttribute('data-descricao');
             var quantidadeMaxima = parseInt(selectedOption.getAttribute('data-quantidade'));
-            var quantidadeSolicitada = parseInt(quantidadeInput.value);
 
-            if (quantidadeSolicitada <= 0 || quantidadeSolicitada > quantidadeMaxima) {
-                alert('A quantidade deve ser entre 1 e ' + quantidadeMaxima + '.');
+            var existingItems = document.querySelectorAll('input[name^="materiais"][name$="[codigo]"]');
+            var itemJaAdicionado = false;
+            existingItems.forEach(function(input) {
+                if (input.value === codigo) {
+                    itemJaAdicionado = true;
+                }
+            });
+
+            if (itemJaAdicionado) {
+                alert('Este material já foi adicionado à requisição.');
+                return;
+            }
+
+            if (quantidadeSolicitada > quantidadeMaxima) {
+                alert(`A quantidade solicitada (${quantidadeSolicitada}) é maior que a quantidade máxima disponível (${quantidadeMaxima}).`);
                 return;
             }
 
@@ -118,20 +140,19 @@
             requisitionItemsDiv.appendChild(newItem);
             itemCounter++;
 
-            // Reseta os campos de entrada
-            materialDatalist.value = '';
-            quantidadeInput.value = '1';
+            // Reseta a seleção e os campos de entrada
+            $('#material-select').val(null).trigger('change');
+            quantidadeInput.value = '';
 
-            // Adiciona o evento de remoção ao novo botão
             newItem.querySelector('.remove-item-btn').addEventListener('click', function() {
                 newItem.remove();
-                updateNoItemsMessage();
+                updateUI();
             });
 
-            updateNoItemsMessage();
+            updateUI();
         });
 
-        updateNoItemsMessage();
+        updateUI();
     });
 </script>
 {% endblock %}

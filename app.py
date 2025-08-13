@@ -96,14 +96,49 @@ def logout():
     session.pop('user', None)
     return redirect(url_for('login'))
 
+from datetime import datetime
+
+# ... (other imports and code) ...
+
 @app.route('/pendentes')
 @login_required
 @admin_required
 def pendentes():
     requisicoes = carregar_requisicoes()
+    
+    # Convert the string date to a datetime object for each requisition
+    for r in requisicoes:
+        if isinstance(r['data'], str):
+            r['data'] = datetime.strptime(r['data'], '%d/%m/%Y %H:%M')
+            
     pendentes_list = [r for r in requisicoes if r['status'] == 'pendente']
     return render_template('pendentes.html', requisicoes=pendentes_list)
 
+# app.py
+
+from datetime import datetime
+# ... rest of your imports ...
+
+# ... your other routes ...
+
+@app.route('/requisicoes/<int:requisicao_id>')
+def ver_requisicao(requisicao_id):
+    requisicoes = carregar_requisicoes()
+    
+    # Find the requisition by its ID
+    requisicao = next((r for r in requisicoes if r.get('id') == requisicao_id), None)
+    
+    if requisicao:
+        # --- CORRECTION: Convert the date string to a datetime object ---
+        if isinstance(requisicao['data'], str):
+            requisicao['data'] = datetime.strptime(requisicao['data'], '%d/%m/%Y %H:%M')
+        
+        return render_template('ver_requisicao.html', requisicao=requisicao)
+    else:
+        flash('Requisição não encontrada.', 'danger')
+        return redirect(url_for('pendentes'))
+
+# ... (rest of the code) ...
 @app.route('/separados')
 @login_required
 def separados():

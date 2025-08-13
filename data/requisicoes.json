@@ -1,1 +1,26 @@
-[]
+[
+    {
+        "id": 1,
+        "nome": "Solicitante",
+        "registro": "Solicitante",
+        "departamento": "solicitante",
+        "data": "12/08/2025 22:01",
+        "status": "concluida",
+        "itens": [
+            {
+                "codigo": "544",
+                "nome": "eaesdhgcg",
+                "quantidade": 2,
+                "quantidade_separada": 1
+            },
+            {
+                "codigo": "12",
+                "nome": "cgktjkgj",
+                "quantidade": 5,
+                "quantidade_separada": 3
+            }
+        ],
+        "data_retirada": "12/08/2025",
+        "data_conclusao": "12/08/2025 22:15"
+    }
+]
