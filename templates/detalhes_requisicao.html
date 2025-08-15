@@ -74,6 +74,15 @@
             </div>
         </div>
     </div>
+    <form action="{{ url_for('concluir_requisicao') }}" method="POST">
+    <input type="hidden" name="requisicao_id" value="{{ requisicao.id }}">
+    <div class="mb-3">
+        <label for="observacao" class="form-label">Observação</label>
+        <textarea class="form-control" id="observacao" name="observacao" rows="3"></textarea>
+    </div>
+    
+    <button type="submit" class="btn btn-success">Marcar como Separada</button>
+</form>
     
     <div class="text-right mt-3 no-print">
         <button onclick="window.print()" class="btn btn-secondary">Imprimir Requisição</button>

@@ -1,28 +1,31 @@
 {% extends 'base.html' %}
 
-{% block title %}Trocar Senha{% endblock %}
-
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h2 class="text-center mb-4">Trocar Senha</h2>
-            <div class="card shadow-sm">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h4>Trocar Senha</h4>
+                </div>
                 <div class="card-body">
-                    <form action="{{ url_for('trocar_senha') }}" method="post">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <form method="POST" action="{{ url_for('trocar_senha') }}">
                         <div class="form-group">
-                            <label for="senha_atual">Senha Atual:</label>
-                            <input type="password" class="form-control" id="senha_atual" name="senha_atual" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="nova_senha">Nova Senha:</label>
+                            <label for="nova_senha">Nova Senha</label>
                             <input type="password" class="form-control" id="nova_senha" name="nova_senha" required>
                         </div>
                         <div class="form-group">
-                            <label for="confirmar_nova_senha">Confirmar Nova Senha:</label>
-                            <input type="password" class="form-control" id="confirmar_nova_senha" name="confirmar_nova_senha" required>
+                            <label for="confirmar_senha">Confirmar Nova Senha</label>
+                            <input type="password" class="form-control" id="confirmar_senha" name="confirmar_senha" required>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Trocar Senha</button>
+                        <button type="submit" class="btn btn-primary btn-block mt-3">Atualizar Senha</button>
                     </form>
                 </div>
             </div>

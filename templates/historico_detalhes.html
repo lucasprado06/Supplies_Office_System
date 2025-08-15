@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Detalhes da Requisição{% endblock %}
+{% block title %}Detalhes do Histórico{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
@@ -19,29 +19,31 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <strong>Data da Requisição:</strong> {{ requisicao.data }}
+                    <strong>Data da Requisição:</strong> {{ requisicao.data.strftime('%d/%m/%Y %H:%M') }}
                 </div>
                 <div class="col-md-6">
                     <strong>Status:</strong> 
-                    {% if requisicao.status == 'concluida' %}
-                        <span class="badge badge-success">{{ requisicao.status }}</span>
-                    {% elif requisicao.status == 'separado' %}
-                        <span class="badge badge-warning">{{ requisicao.status }}</span>
-                    {% else %}
-                        <span class="badge badge-primary">{{ requisicao.status }}</span>
-                    {% endif %}
+                    <span class="badge badge-success">{{ requisicao.status }}</span>
                 </div>
             </div>
-            {% if requisicao.status != 'pendente' %}
+            
             <div class="row mb-3">
                 <div class="col-md-6">
                     <strong>Data de Retirada:</strong> {{ requisicao.data_retirada }}
                 </div>
-                {% if requisicao.data_conclusao %}
                 <div class="col-md-6">
                     <strong>Data de Conclusão:</strong> {{ requisicao.data_conclusao }}
                 </div>
-                {% endif %}
+            </div>
+
+            {% if requisicao.observacao %}
+            <div class="card mt-4 shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Observação</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ requisicao.observacao }}</p>
+                </div>
             </div>
             {% endif %}
 
@@ -53,9 +55,7 @@
                             <th>Código</th>
                             <th>Nome do Item</th>
                             <th>Quantidade Solicitada</th>
-                            {% if requisicao.status != 'pendente' %}
                             <th>Quantidade Separada</th>
-                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -64,9 +64,7 @@
                             <td>{{ item.codigo }}</td>
                             <td>{{ item.nome }}</td>
                             <td>{{ item.quantidade }}</td>
-                            {% if requisicao.status != 'pendente' %}
                             <td>{{ item.quantidade_separada }}</td>
-                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -78,5 +76,10 @@
     <div class="text-right mt-3 no-print">
         <button onclick="window.print()" class="btn btn-secondary">Imprimir Requisição</button>
     </div>
+</div>
+<div class="text-left mt-3 no-print">
+    <a href="{{ url_for('historico') }}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Voltar para o Histórico
+    </a>
 </div>
 {% endblock %}

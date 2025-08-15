@@ -1,40 +1,43 @@
 {% extends 'base.html' %}
 
-{% block title %}Detalhes da Requisição {{ requisicao.id }}{% endblock %}
+{% block title %}Detalhes da Requisição{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
     <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white text-center no-print">
+        <div class="card-header bg-primary text-white">
             <h2 class="h5 mb-0">Detalhes da Requisição #{{ requisicao.id }}</h2>
         </div>
         <div class="card-body">
-            <div class="row mb-4">
+            <div class="row mb-3">
                 <div class="col-md-6">
-                    <p class="mb-1"><strong>ID:</strong> {{ requisicao.id }}</p>
-                    <p class="mb-1"><strong>Data da Requisição:</strong> {{ requisicao.data.strftime('%d/%m/%Y') }}</p>
-                    <p class="mb-1"><strong>Hora da Requisição:</strong> {{ requisicao.data.strftime('%H:%M') }}</p>
+                    <strong>Solicitante:</strong> {{ requisicao.nome }}
                 </div>
                 <div class="col-md-6">
-                    <p class="mb-1"><strong>Solicitante:</strong> {{ requisicao.nome }}</p>
-                    <p class="mb-1"><strong>Departamento:</strong> {{ requisicao.departamento }}</p>
+                    <strong>Departamento:</strong> {{ requisicao.departamento }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Data da Requisição:</strong> {{ requisicao.data.strftime('%d/%m/%Y %H:%M') }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Status:</strong> 
+                    <span class="badge badge-primary">{{ requisicao.status }}</span>
                 </div>
             </div>
 
-            <hr>
-
-            <h3 class="h6 mb-3">Itens da Requisição</h3>
-
-            <form action="{{ url_for('concluir_requisicao') }}" method="post">
-                <input type="hidden" name="requisicao_id" value="{{ requisicao.id }}">
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
+            {% if session['user']['permissao'] == 'administrador' and requisicao.status == 'pendente' %}
+            <hr class="my-4"> <h5 class="mb-3">Ações do Administrador</h5>
+            <form action="{{ url_for('ver_requisicao', requisicao_id=requisicao.id) }}" method="POST">
+                <div class="table-responsive mb-3">
+                    <table class="table table-bordered table-striped">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col">Código</th>
-                                <th scope="col">Descrição do Item</th>
-                                <th scope="col">Qtd. Solicitada</th>
-                                <th scope="col">Qtd. Separada</th>
+                                <th>Código</th>
+                                <th>Nome do Item</th>
+                                <th>Quantidade Solicitada</th>
+                                <th>Quantidade Separada</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,7 +47,7 @@
                                 <td>{{ item.nome }}</td>
                                 <td>{{ item.quantidade }}</td>
                                 <td>
-                                    <input type="number" name="quantidade_separada_{{ item.codigo }}" value="{{ item.quantidade }}" min="0" max="{{ item.quantidade }}" class="form-control form-control-sm" required>
+                                    <input type="number" name="quantidade_separada_{{ item.codigo }}" class="form-control" value="{{ item.quantidade }}" min="0" max="{{ item.quantidade }}">
                                 </td>
                             </tr>
                             {% endfor %}
@@ -52,21 +55,46 @@
                     </table>
                 </div>
 
-                <div class="form-group mt-4">
-                    <label for="data_retirada">Data de Retirada:</label>
-                    <input type="date" id="data_retirada" name="data_retirada" class="form-control" required>
+                <div class="mb-3">
+                    <label for="data_retirada" class="form-label">Data de Retirada (Opcional)</label>
+                    <input type="date" class="form-control" id="data_retirada" name="data_retirada">
                 </div>
 
-                <div class="d-flex justify-content-between mt-4 no-print">
-                    <button type="submit" class="btn btn-success"><i class="fas fa-check-circle"></i> Marcar como Separado</button>
-                    <a href="{{ url_for('pendentes') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
+                <div class="mb-3">
+                    <label for="observacao" class="form-label">Observação</label>
+                    <textarea class="form-control" id="observacao" name="observacao" rows="3"></textarea>
                 </div>
+                
+                <button type="submit" class="btn btn-success">Marcar como Separada</button>
             </form>
+            {% else %}
+            <h5 class="mt-4">Itens da Requisição</h5>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Código</th>
+                            <th>Nome do Item</th>
+                            <th>Quantidade Solicitada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in requisicao.itens %}
+                        <tr>
+                            <td>{{ item.codigo }}</td>
+                            <td>{{ item.nome }}</td>
+                            <td>{{ item.quantidade }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
         </div>
     </div>
     
     <div class="text-right mt-3 no-print">
-        <button onclick="window.print()" class="btn btn-info"><i class="fas fa-print"></i> Imprimir Requisição</button>
+        <button onclick="window.print()" class="btn btn-secondary">Imprimir Requisição</button>
     </div>
 </div>
 {% endblock %}

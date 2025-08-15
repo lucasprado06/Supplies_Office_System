@@ -1,16 +1,26 @@
 [
     {
-        "nome": "Admin",
-        "registro": "Admin",
-        "departamento": "admin",
-        "senha": "Admin",
-        "permissao": "administrador"
+        "nome": "Lucas Gabriel do Prado",
+        "registro": "7431",
+        "departamento": "Logistica",
+        "senha_hash": "scrypt:32768:8:1$1w4lLM1AIwyMDEjl$ccdf2aa0b0406207a32124b0dd2c6c6ffd8dbf2789ee912a82f4be222873850888ccadfc4ccdd378191be0476dd3448a60ccde1e9b5648e9a873fe8e1b4eb5bc",
+        "permissao": "administrador",
+        "forcar_troca_senha": false
     },
     {
-        "nome": "Solicitante",
-        "registro": "Solicitante",
-        "departamento": "solicitante",
-        "senha": "12345678",
-        "permissao": "solicitante"
+        "nome": "Admin",
+        "registro": "admin",
+        "departamento": "TI",
+        "senha_hash": "scrypt:32768:8:1$ataQxE2FSvx8ZLui$927df308f210f360bd6bcfb357ad73136c9d654437fdc4b7c9f70098c5a2520bd3468ae48c23fb1461aceb1d8c34b304cc70b61c71d4d3951bfbbb774b3b7bf6",
+        "permissao": "administrador",
+        "forcar_troca_senha": false
+    },
+    {
+        "nome": "usuario 1",
+        "registro": "usuario1",
+        "departamento": "admnistrativo",
+        "senha_hash": "scrypt:32768:8:1$Pr6T2q4cTWj1zFC7$65c29033f7dbe8df234ebc3423b3608c3d7ef21b7a8d12851100647b8e9af83f35af1bc490f90cff4622306256822f1c8678e62178156c413fe2944b4c747e4e",
+        "permissao": "solicitante",
+        "forcar_troca_senha": false
     }
 ]
