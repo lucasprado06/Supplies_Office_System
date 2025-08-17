@@ -8,5 +8,10 @@
         "codigo": "544",
         "descricao": "eaesdhgcg",
         "quantidade_maxima": 5
+    },
+    {
+        "codigo": "132514",
+        "descricao": "produto 3",
+        "quantidade_maxima": 6
     }
 ]

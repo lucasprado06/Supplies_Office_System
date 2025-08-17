@@ -17,6 +17,7 @@
                         {% endif %}
                     {% endwith %}
                     <form method="POST" action="{{ url_for('trocar_senha') }}">
+                          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                         <div class="form-group">
                             <label for="nova_senha">Nova Senha</label>
                             <input type="password" class="form-control" id="nova_senha" name="nova_senha" required>

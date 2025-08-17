@@ -31,6 +31,7 @@
                                     <td>{{ usuario.permissao | capitalize }}</td>
                                     <td class="text-center">
                                         <form action="{{ url_for('excluir_usuario') }}" method="post">
+                                              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                                             <input type="hidden" name="registro_usuario" value="{{ usuario.registro }}">
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este usuário?');">Excluir</button>
                                         </form>

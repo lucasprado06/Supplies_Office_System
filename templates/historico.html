@@ -50,6 +50,7 @@
                                         <a href="{{ url_for('historico_detalhes', requisicao_id=requisicao.id) }}" class="btn btn-info btn-sm">Visualizar Detalhes</a>
                                         {% if requisicao.status == 'pendente' and session['user']['permissao'] != 'administrador' %}
                                             <form action="{{ url_for('excluir_requisicao', requisicao_id=requisicao.id) }}" method="post" style="display:inline;">
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir esta requisição?');">Excluir</button>
                                             </form>
                                         {% endif %}

@@ -1,172 +1,64 @@
 [
     {
         "id": 1,
-        "nome": "Solicitante",
-        "registro": "Solicitante",
-        "departamento": "solicitante",
-        "data": "12/08/2025 22:01",
+        "nome": "usuario 1",
+        "registro": "usuario1",
+        "departamento": "admnistrativo",
+        "data": "17/08/2025 19:33",
         "status": "concluida",
         "itens": [
             {
                 "codigo": "544",
                 "nome": "eaesdhgcg",
                 "quantidade": 2,
-                "quantidade_separada": 1
+                "quantidade_separada": 2
             },
             {
                 "codigo": "12",
                 "nome": "cgktjkgj",
-                "quantidade": 5,
-                "quantidade_separada": 3
+                "quantidade": 1,
+                "quantidade_separada": 0
             }
         ],
-        "data_retirada": "12/08/2025",
-        "data_conclusao": "12/08/2025 22:15"
+        "data_separacao": "17/08/2025 19:33",
+        "data_conclusao": "17/08/2025 19:34"
     },
     {
         "id": 2,
         "nome": "usuario 1",
         "registro": "usuario1",
         "departamento": "admnistrativo",
-        "data": "15/08/2025 18:46",
+        "data": "17/08/2025 19:34",
         "status": "concluida",
         "itens": [
             {
                 "codigo": "544",
                 "nome": "eaesdhgcg",
-                "quantidade": 2,
+                "quantidade": 1,
                 "quantidade_separada": 1
             }
         ],
-        "data_retirada": "15/08/2025",
-        "data_conclusao": "15/08/2025 19:12"
+        "data_separacao": "17/08/2025 19:34",
+        "data_conclusao": "17/08/2025 19:57"
     },
     {
         "id": 3,
         "nome": "usuario 1",
         "registro": "usuario1",
         "departamento": "admnistrativo",
-        "data": "15/08/2025 18:49",
-        "status": "concluida",
-        "itens": [
-            {
-                "codigo": "544",
-                "nome": "eaesdhgcg",
-                "quantidade": 1,
-                "quantidade_separada": 1
-            }
-        ],
-        "data_retirada": "16/08/2025",
-        "observacao": "",
-        "data_conclusao": "15/08/2025 19:12"
-    },
-    {
-        "id": 4,
-        "nome": "usuario 1",
-        "registro": "usuario1",
-        "departamento": "admnistrativo",
-        "data": "15/08/2025 18:57",
+        "data": "17/08/2025 19:41",
         "status": "concluida",
         "itens": [
             {
                 "codigo": "12",
                 "nome": "cgktjkgj",
                 "quantidade": 1,
-                "quantidade_separada": 0
-            }
-        ],
-        "data_retirada": "15/08/2025",
-        "observacao": "saldo indisponivel.",
-        "data_conclusao": "15/08/2025 19:13"
-    },
-    {
-        "id": 5,
-        "nome": "usuario 1",
-        "registro": "usuario1",
-        "departamento": "admnistrativo",
-        "data": "15/08/2025 19:13",
-        "status": "separado",
-        "itens": [
-            {
-                "codigo": "12",
-                "nome": "cgktjkgj",
-                "quantidade": 1,
-                "quantidade_separada": 0
-            }
-        ],
-        "data_retirada": "15/08/2025",
-        "observacao": "sem estoque."
-    },
-    {
-        "id": 6,
-        "nome": "usuario 1",
-        "registro": "usuario1",
-        "departamento": "admnistrativo",
-        "data": "15/08/2025 19:29",
-        "status": "separado",
-        "itens": [
-            {
-                "codigo": "12",
-                "nome": "cgktjkgj",
-                "quantidade": 2,
-                "quantidade_separada": 2
-            }
-        ],
-        "data_retirada": "15/08/2025",
-        "observacao": "ok."
-    },
-    {
-        "id": 7,
-        "nome": "usuario 1",
-        "registro": "usuario1",
-        "departamento": "admnistrativo",
-        "data": "15/08/2025 19:35",
-        "status": "separado",
-        "itens": [
-            {
-                "codigo": "12",
-                "nome": "cgktjkgj",
-                "quantidade": 1,
                 "quantidade_separada": 1
             }
         ],
-        "data_retirada": "15/08/2025",
-        "observacao": "hjvjvjhv"
-    },
-    {
-        "id": 8,
-        "nome": "usuario 1",
-        "registro": "usuario1",
-        "departamento": "admnistrativo",
-        "data": "15/08/2025 19:51",
-        "status": "separado",
-        "itens": [
-            {
-                "codigo": "12",
-                "nome": "cgktjkgj",
-                "quantidade": 1,
-                "quantidade_separada": 1
-            }
-        ],
-        "data_retirada": "15/08/2025",
-        "observacao": ""
-    },
-    {
-        "id": 9,
-        "nome": "usuario 1",
-        "registro": "usuario1",
-        "departamento": "admnistrativo",
-        "data": "15/08/2025 19:58",
-        "status": "separado",
-        "itens": [
-            {
-                "codigo": "544",
-                "nome": "eaesdhgcg",
-                "quantidade": 1,
-                "quantidade_separada": 1
-            }
-        ],
-        "data_retirada": "16/08/2025",
-        "observacao": ""
+        "data_separacao": "17/08/2025 19:52",
+        "data_retirada": "2025-08-19",
+        "observacao": "ok",
+        "data_conclusao": "17/08/2025 19:57"
     }
 ]

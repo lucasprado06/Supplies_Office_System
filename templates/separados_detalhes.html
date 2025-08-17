@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %}Detalhes da Requisição Separada{% endblock %}
+{% block title %}Detalhes da Requisição{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-3">
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
             <h2 class="h5 mb-0">Detalhes da Requisição #{{ requisicao.id }}</h2>
         </div>
         <div class="card-body">
-            <div class="row mb-3">
+            <div class="row mb-2">
                 <div class="col-md-6">
                     <strong>Solicitante:</strong> {{ requisicao.nome }}
                 </div>
@@ -17,36 +17,63 @@
                     <strong>Departamento:</strong> {{ requisicao.departamento }}
                 </div>
             </div>
-            <div class="row mb-3">
+            <div class="row mb-2">
                 <div class="col-md-6">
                     <strong>Data da Requisição:</strong> {{ requisicao.data.strftime('%d/%m/%Y %H:%M') }}
                 </div>
                 <div class="col-md-6">
-                    <strong>Status:</strong> 
-                    <span class="badge badge-warning">{{ requisicao.status }}</span>
+                    <strong>Status:</strong>
+                    <span class="badge badge-primary">{{ requisicao.status }}</span>
                 </div>
             </div>
-            
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <strong>Data de Retirada:</strong> {{ requisicao.data_retirada }}
-                </div>
-            </div>
-            
-            {% if requisicao.observacao %}
-            <div class="card mt-4 shadow-sm">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0">Observação</h5>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">{{ requisicao.observacao }}</p>
-                </div>
-            </div>
-            {% endif %}
 
-            <h5 class="mt-4">Itens da Requisição</h5>
+            {% if session['user']['permissao'] == 'administrador' and requisicao.status == 'pendente' %}
+            <hr class="my-3">
+            <h5 class="mb-2">Ações do Administrador</h5>
+            <form action="{{ url_for('ver_requisicao', requisicao_id=requisicao.id) }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <div class="table-responsive mb-2">
+                    <table class="table table-bordered table-striped table-sm">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Código</th>
+                                <th>Nome do Item</th>
+                                <th>Quantidade Solicitada</th>
+                                <th>Quantidade Separada</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in requisicao.itens %}
+                            <tr>
+                                <td>{{ item.codigo }}</td>
+                                <td>{{ item.nome }}</td>
+                                <td>{{ item.quantidade }}</td>
+                                <td>
+                                    <input type="number" name="quantidade_separada_{{ item.codigo }}" class="form-control form-control-sm" value="{{ item.quantidade }}" min="0" max="{{ item.quantidade }}">
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mb-2">
+                    <label for="data_retirada" class="form-label">Data de Retirada (Opcional)</label>
+                    <input type="date" class="form-control form-control-sm" id="data_retirada" name="data_retirada">
+                </div>
+
+                <div class="mb-3">
+                    <label for="observacao" class="form-label">Observação</label>
+                    <textarea class="form-control form-control-sm" id="observacao" name="observacao" rows="2"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-sm">Marcar como Separada</button>
+                <a href="{{ url_for('pendentes') }}" class="btn btn-secondary btn-sm">Voltar</a>
+            </form>
+            {% else %}
+            <h5 class="mt-3">Itens da Requisição</h5>
             <div class="table-responsive">
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped table-sm">
                     <thead class="thead-light">
                         <tr>
                             <th>Código</th>
@@ -61,22 +88,54 @@
                             <td>{{ item.codigo }}</td>
                             <td>{{ item.nome }}</td>
                             <td>{{ item.quantidade }}</td>
-                            <td>{{ item.quantidade_separada }}</td>
+                            <td>
+                                {% if 'quantidade_separada' in item %}
+                                    {{ item.quantidade_separada }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
+                <div class="mt-3">
+                    {% if requisicao.status == 'separado' or requisicao.status == 'concluida' %}
+                        <p class="mb-1"><strong>Data de Separação:</strong> {{ requisicao.data_separacao }}</p>
+                        {% if requisicao.data_retirada %}
+                            <p class="mb-1"><strong>Data de Retirada Sugerida:</strong> {{ requisicao.data_retirada }}</p>
+                        {% endif %}
+                        {% if requisicao.observacao %}
+                            <p class="mb-1"><strong>Observação do Administrador:</strong> {{ requisicao.observacao }}</p>
+                        {% endif %}
+                    {% endif %}
+                    {% if requisicao.status == 'concluida' %}
+                        <p class="mb-1"><strong>Data de Conclusão:</strong> {{ requisicao.data_conclusao }}</p>
+                    {% endif %}
+                </div>
             </div>
+            {% endif %}
         </div>
     </div>
     
-    <form action="{{ url_for('finalizar_requisicao') }}" method="POST" class="mt-3">
-        <input type="hidden" name="requisicao_id" value="{{ requisicao.id }}">
-        <button type="submit" class="btn btn-success">Finalizar Requisição</button>
-    </form>
-    
-    <div class="text-right mt-3 no-print">
-        <button onclick="window.print()" class="btn btn-secondary">Imprimir Requisição</button>
+    {% if requisicao.status == 'separado' %}
+    <div class="d-flex justify-content-between align-items-center mt-3 no-print">
+        <form action="{{ url_for('finalizar_requisicao') }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <input type="hidden" name="requisicao_id" value="{{ requisicao.id }}">
+            <button type="submit" class="btn btn-success btn-sm">Finalizar Requisição</button>
+        </form>
+        <div>
+            <a href="{{ url_for('separados') }}" class="btn btn-primary btn-sm">Voltar</a>
+            <button onclick="window.print()" class="btn btn-secondary btn-sm">Imprimir Requisição</button>
+        </div>
     </div>
+    {% else %}
+    <div class="text-right mt-3 no-print">
+        <a href="{{ url_for('historico') }}" class="btn btn-primary btn-sm">Voltar</a>
+        <button onclick="window.print()" class="btn btn-secondary btn-sm">Imprimir Requisição</button>
+    </div>
+    {% endif %}
+
 </div>
 {% endblock %}

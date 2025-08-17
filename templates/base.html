@@ -70,8 +70,15 @@
                         <li class="nav-item {% if request.endpoint == 'historico' %}active{% endif %}">
                             <a class="nav-link" href="{{ url_for('historico') }}">Meu Histórico</a>
                         </li>
+                    {% endif %}
+
+                    {% if session['user'].get('forcar_troca_senha', False) %}
                         <li class="nav-item {% if request.endpoint == 'trocar_senha' %}active{% endif %}">
                             <a class="nav-link" href="{{ url_for('trocar_senha') }}">Trocar Senha</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item {% if request.endpoint == 'perfil' %}active{% endif %}">
+                            <a class="nav-link" href="{{ url_for('perfil') }}">Alterar Senha</a>
                         </li>
                     {% endif %}
                 {% endif %}

@@ -135,6 +135,7 @@
     <h1>Gerenciar Materiais de Escritório</h1>
 
     <form action="{{ url_for('gerenciar_materiais') }}" method="post" class="form-add">
+            {{ csrf_token() }}
         <input type="text" name="codigo" placeholder="Código do material" required>
         <input type="text" name="descricao" placeholder="Descrição do material" required>
         <input type="number" name="quantidade_maxima" placeholder="Quantidade máxima" min="1" required>
@@ -150,6 +151,7 @@
                         <strong>{{ loop.index }}. {{ material.codigo }}</strong> - {{ material.descricao }} (Máx: {{ material.quantidade_maxima }})
                     </span>
                     <form action="{{ url_for('excluir_material', codigo_material=material.codigo) }}" method="post">
+                            {{ csrf_token() }}
                         <button type="submit">Excluir</button>
                     </form>
                 </li>

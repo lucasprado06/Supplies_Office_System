@@ -75,6 +75,7 @@
         </div>
     </div>
     <form action="{{ url_for('concluir_requisicao') }}" method="POST">
+          {{ csrf_token() }}
     <input type="hidden" name="requisicao_id" value="{{ requisicao.id }}">
     <div class="mb-3">
         <label for="observacao" class="form-label">Observação</label>
